@@ -41,11 +41,13 @@ class s3_connection:
             print(f"Error reading CSV file from S3: {e}")
             return None
 
-    def read_text_from_s3(self, directory):
+    def read_text_file_from_s3(self, directory):
         try:
-            with self.s3.open(directory, "r") as file_in:
-                df = pd.read(file_in)
-            return df
+            with self.s3.open(directory, "r", encoding="utf-8") as file_in:
+                content = file_in.read()  # Lire tout le contenu du fichier
+            return content
+        except FileNotFoundError:
+            print(f"Erreur : le fichier {directory} n'existe pas.")
         except Exception as e:
-            print(f"Error reading text file from S3: {e}")
-            return None
+            print(f"Erreur lors de la lecture du fichier texte depuis S3 : {e}")
+        return None
