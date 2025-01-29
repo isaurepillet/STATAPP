@@ -32,10 +32,10 @@ class s3_connection:
             print(f"Error reading Parquet file from S3: {e}")
             return None
 
-    def read_csv_from_s3(self, directory, columns_to_select=None, dtype_spec=None):
+    def read_csv_from_s3(self, directory, columns_to_select=None, dtype_spec=None, sep=None):
         try:
             with self.s3.open(directory, "rb") as file_in:
-                df = pd.read_csv(file_in, usecols=columns_to_select, dtype=dtype_spec)
+                df = pd.read_csv(file_in, usecols=columns_to_select, dtype=dtype_spec, sep=sep)
             return df
         except Exception as e:
             print(f"Error reading CSV file from S3: {e}")

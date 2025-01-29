@@ -1,0 +1,22 @@
+### Installation de libpostal avec windows ###
+
+Exécuter ce code (paragraphe par paragraphe)
+
+sudo apt update
+sudo apt install -y curl autoconf automake libtool pkg-config build-essential
+
+git clone https://github.com/openvenues/libpostal
+cd libpostal
+
+./bootstrap.sh
+./configure --datadir=/path/to/some/directory/with/space --disable-sse2
+make -j$(nproc)  # Utilise tous les cœurs de processeur disponibles
+sudo make install
+sudo ldconfig  # Mettre à jour les bibliothèques partagées
+
+pip install postal
+
+# Puis tester 
+
+from postal.parser import parse_address
+print(parse_address("10 Downing Street, London, UK"))
