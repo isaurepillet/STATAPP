@@ -51,3 +51,17 @@ class s3_connection:
         except Exception as e:
             print(f"Erreur lors de la lecture du fichier texte depuis S3 : {e}")
         return None
+    
+    def convertir_et_sauvegarder_txt_en_parquet(fichier_txt, fichier_parquet, delimiter=","):
+    
+        try:
+        # Lire le fichier texte en DataFrame pandas
+            df = pd.read_csv(fichier_txt, delimiter=delimiter)
+
+        # Sauvegarder le DataFrame en fichier Parquet
+            df.to_parquet(fichier_parquet, engine="pyarrow", index=False)
+
+            print(f"✅ Fichier Parquet sauvegardé : {fichier_parquet}")
+
+        except Exception as e:
+            print(f"❌ Erreur : {e}")
