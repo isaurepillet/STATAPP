@@ -16,13 +16,6 @@ class s3_connection:
             self.s3 = None
             print(f"Connection not established, debug: {e}")
 
-    def from_pandas_to_parquet_store_in_s3(self, df, directory):
-        try:
-            with self.s3.open(directory, "wb") as file_out:
-                df.to_parquet(file_out)
-        except Exception as e:
-            print(f"Cher lecteur, cette fonction écrit dans le dossier spécifié, mais vous n'avez pas les droits :( {e}")
-
     def get_tables_from_s3(self, directory):
         try:
             with self.s3.open(directory, "rb") as file_in:
@@ -32,36 +25,38 @@ class s3_connection:
             print(f"Error reading Parquet file from S3: {e}")
             return None
 
-    def read_csv_from_s3(self, directory, columns_to_select=None, dtype_spec=None, sep=None):
+    def read_file_from_s3(self, directory, columns_to_select=None, dtype_spec=None, sep=None):
         try:
             with self.s3.open(directory, "rb") as file_in:
                 df = pd.read_csv(file_in, usecols=columns_to_select, dtype=dtype_spec, sep=sep)
             return df
         except Exception as e:
-            print(f"Error reading CSV file from S3: {e}")
+            print(f"Error reading file from S3: {e}")
             return None
 
-    def read_text_file_from_s3(self, directory):
+    def get_tables_from_s3(self,directory):
+        
+        with self.s3.open(directory, "rb") as file_in:
+          df = pd.read_parquet(file_in)
+        return df
+
+    def convert_txt_to_parquet_direct(self, txt_content, output_directory, delimiter=None):
+        """
+        Convertit un texte (chaîne de caractères) en DataFrame et l'enregistre en Parquet dans S3
+        
+        :param txt_content: Le contenu du fichier texte (string)
+        :param output_directory: Le chemin du fichier Parquet dans S3 (ex: "bucket/directory/output.parquet")
+        :param delimiter: Le séparateur des colonnes dans le fichier texte ("," pour CSV, "\t" pour TSV, None pour espace)
+        """
         try:
-            with self.s3.open(directory, "r", encoding="utf-8") as file_in:
-                content = file_in.read()  # Lire tout le contenu du fichier
-            return content
-        except FileNotFoundError:
-            print(f"Erreur : le fichier {directory} n'existe pas.")
+            # Transformer le contenu texte en DataFrame
+            lines = txt_content.strip().split("\n")
+            df = pd.DataFrame([line.split(delimiter) for line in lines])
+
+            # Sauvegarder en Parquet directement dans S3
+            with self.s3.open(output_directory, "wb") as file_out:
+                df.to_parquet(file_out)
+            print(f"Parquet enregistré avec succès : {output_directory}")
+        
         except Exception as e:
-            print(f"Erreur lors de la lecture du fichier texte depuis S3 : {e}")
-        return None
-    
-    def convertir_et_sauvegarder_txt_en_parquet(fichier_txt, fichier_parquet, delimiter=","):
-    
-        try:
-        # Lire le fichier texte en DataFrame pandas
-            df = pd.read_csv(fichier_txt, delimiter=delimiter)
-
-        # Sauvegarder le DataFrame en fichier Parquet
-            df.to_parquet(fichier_parquet, engine="pyarrow", index=False)
-
-            print(f"✅ Fichier Parquet sauvegardé : {fichier_parquet}")
-
-        except Exception as e:
-            print(f"❌ Erreur : {e}")
+            print(f"Erreur lors de la conversion TXT -> Parquet : {e}")
