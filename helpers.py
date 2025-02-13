@@ -40,18 +40,17 @@ class s3_connection:
           df = pd.read_parquet(file_in)
         return df
 
-    def convert_txt_to_parquet_direct(self, txt_content, output_directory, delimiter=None):
+    def convert_dataframe_to_parquet_direct(self, df, output_directory):
         """
-        Convertit un texte (chaîne de caractères) en DataFrame et l'enregistre en Parquet dans S3
+        Convertit un DataFrame directement en Parquet et l'enregistre dans S3
         
-        :param txt_content: Le contenu du fichier texte (string)
+        :param df: Le DataFrame à convertir
         :param output_directory: Le chemin du fichier Parquet dans S3 (ex: "bucket/directory/output.parquet")
-        :param delimiter: Le séparateur des colonnes dans le fichier texte ("," pour CSV, "\t" pour TSV, None pour espace)
         """
         try:
-            # Transformer le contenu texte en DataFrame
-            lines = txt_content.strip().split("\n")
-            df = pd.DataFrame([line.split(delimiter) for line in lines])
+            # Vérifier si df est un DataFrame
+            if not isinstance(df, pd.DataFrame):
+                raise ValueError("Le contenu doit être un DataFrame.")
 
             # Sauvegarder en Parquet directement dans S3
             with self.s3.open(output_directory, "wb") as file_out:
@@ -59,4 +58,4 @@ class s3_connection:
             print(f"Parquet enregistré avec succès : {output_directory}")
         
         except Exception as e:
-            print(f"Erreur lors de la conversion TXT -> Parquet : {e}")
+            print(f"Erreur lors de la conversion DataFrame -> Parquet : {e}")
