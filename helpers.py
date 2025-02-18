@@ -59,3 +59,15 @@ class s3_connection:
         
         except Exception as e:
             print(f"Erreur lors de la conversion DataFrame -> Parquet : {e}")
+    
+    def normalize_address(self, address):
+        if pd.isna(address) or address.strip() == '':
+            return None  
+        try:
+            normalized = expand_address(address)  
+            return "; ".join(normalized)  
+        except Exception as e:
+            print(f"Erreur avec l'adresse '{address}': {e}")
+            return None
+
+    
