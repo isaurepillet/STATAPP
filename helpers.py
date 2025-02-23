@@ -1,5 +1,7 @@
 import pandas as pd
 import numpy as np 
+import pyarrow as pa
+import pyarrow.parquet as pq
 import math as mt
 import s3fs
 import statsmodels.api as sm
@@ -40,26 +42,23 @@ class s3_connection:
           df = pd.read_parquet(file_in)
         return df
 
-    def convert_dataframe_to_parquet_direct(self, df, output_directory):
-        """
-        Convertit un DataFrame directement en Parquet et l'enregistre dans S3
+    def dataframe_to_parquet(self, df, parquet_file_path):
         
-        :param df: Le DataFrame à convertir
-        :param output_directory: Le chemin du fichier Parquet dans S3 (ex: "bucket/directory/output.parquet")
-        """
         try:
-            # Vérifier si df est un DataFrame
-            if not isinstance(df, pd.DataFrame):
-                raise ValueError("Le contenu doit être un DataFrame.")
+            # Convertir le DataFrame en table pyarrow
+            table = pa.Table.from_pandas(df)
 
-            # Sauvegarder en Parquet directement dans S3
-            with self.s3.open(output_directory, "wb") as file_out:
-                df.to_parquet(file_out)
-            print(f"Parquet enregistré avec succès : {output_directory}")
-        
+            # Écrire la table dans un fichier Parquet
+            pq.write_table(table, parquet_file_path)
+
+            print(f"Fichier Parquet créé avec succès à l'emplacement : {parquet_file_path}")
+
         except Exception as e:
-            print(f"Erreur lors de la conversion DataFrame -> Parquet : {e}")
-    
+            print(f"Erreur lors de la conversion du DataFrame en Parquet : {e}")
+
+        except Exception as e:
+            print(f"Erreur lors de la conversion du fichier CSV en Parquet : {e}")
+
     def normalize_address(self, address):
         if pd.isna(address) or address.strip() == '':
             return None  
