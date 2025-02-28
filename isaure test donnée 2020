@@ -1,0 +1,1419 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Exploration des fichiers "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 52,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "'/home/onyxia/work/STATAPP'"
+      ]
+     },
+     "execution_count": 52,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "import os \n",
+    "os.getcwd()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 53,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "données/:\n",
+      "dpe-france.csv\t\t   valeursfoncieres-2021.txt\n",
+      "valeursfoncieres-2020.txt  valeursfoncieres-2022.txt\n"
+     ]
+    }
+   ],
+   "source": [
+    "!ls -R données/"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Exploration du fichier dpe-france.csv\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 54,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Index(['numero_dpe', 'nom_methode_dpe', 'version_methode_dpe',\n",
+       "       'date_etablissement_dpe', 'consommation_energie',\n",
+       "       'classe_consommation_energie', 'estimation_ges',\n",
+       "       'classe_estimation_ges', 'annee_construction', 'surface_thermique_lot',\n",
+       "       'latitude', 'longitude', 'tr001_modele_dpe_type_libelle',\n",
+       "       'tr002_type_batiment_description', 'code_insee_commune_actualise',\n",
+       "       'tv016_departement_code', 'geo_adresse', 'geo_score'],\n",
+       "      dtype='object')"
+      ]
+     },
+     "execution_count": 54,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "import pandas as pd\n",
+    "\n",
+    "df_dpe = pd.read_csv(\"données/dpe-france.csv\", sep=\",\", low_memory=False)\n",
+    "df_dpe.head()\n",
+    "df_dpe.columns\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Exploration du fichier valeursfoncieres-2020.txt\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 55,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Index(['Identifiant de document', 'Reference document', '1 Articles CGI',\n",
+       "       '2 Articles CGI', '3 Articles CGI', '4 Articles CGI', '5 Articles CGI',\n",
+       "       'No disposition', 'Date mutation', 'Nature mutation', 'Valeur fonciere',\n",
+       "       'No voie', 'B/T/Q', 'Type de voie', 'Code voie', 'Voie', 'Code postal',\n",
+       "       'Commune', 'Code departement', 'Code commune', 'Prefixe de section',\n",
+       "       'Section', 'No plan', 'No Volume', '1er lot',\n",
+       "       'Surface Carrez du 1er lot', '2eme lot', 'Surface Carrez du 2eme lot',\n",
+       "       '3eme lot', 'Surface Carrez du 3eme lot', '4eme lot',\n",
+       "       'Surface Carrez du 4eme lot', '5eme lot', 'Surface Carrez du 5eme lot',\n",
+       "       'Nombre de lots', 'Code type local', 'Type local', 'Identifiant local',\n",
+       "       'Surface reelle bati', 'Nombre pieces principales', 'Nature culture',\n",
+       "       'Nature culture speciale', 'Surface terrain'],\n",
+       "      dtype='object')"
+      ]
+     },
+     "execution_count": 55,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df_valeurs = pd.read_csv(\"données/valeursfoncieres-2020.txt\", sep=\"|\", low_memory=False)\n",
+    "df_valeurs.head()\n",
+    "df_valeurs.columns"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Filtrer les données pour le département 44\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 56,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array(['74', '56', '19', '86', '13', '66', '72', '35', '40', '64', '14',\n",
+       "       '10', '38', '23', '24', '82', '78', '49', '95', '18', '67', '02',\n",
+       "       '42', '62', '05', '54', '87', '89', '76', '2B', '11', '84', '16',\n",
+       "       '65', '60', '25', '03', '57', '01', '52', '45', '30', '04', '83',\n",
+       "       '91', '44', '33', '88', '77', '32', '73', '27', '34', '15', '07',\n",
+       "       '50', '43', '22', '79', '17', '69', '61', '63', '36', '12', '55',\n",
+       "       '29', '53', '68', '51', '93', '06', '90', '09', '26', '59', '85',\n",
+       "       '2A', '21', '48', '71', '94', '47', '80', '46', '58', '31', '75',\n",
+       "       '39', '28', '41', '81', '92', '37', '70', '08'], dtype=object)"
+      ]
+     },
+     "execution_count": 56,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df_dpe[\"tv016_departement_code\"].unique()\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 57,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(283629, 18)"
+      ]
+     },
+     "execution_count": 57,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df_dpe_44 = df_dpe[df_dpe[\"tv016_departement_code\"] == \"44\"]\n",
+    "df_dpe_44.shape\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 58,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "45                     3 Chemin Poisson 44100 Nantes\n",
+       "146                                              NaN\n",
+       "287        3 Rue Sainte-anne 44450 Divatte-sur-Loire\n",
+       "329                2 Route de Carquefou 44300 Nantes\n",
+       "462                                              NaN\n",
+       "570       7 Rue Suzanne Lenglen 44800 Saint-Herblain\n",
+       "632                                              NaN\n",
+       "765                6 Rue Henri Gautier 44220 Couëron\n",
+       "850                                              NaN\n",
+       "912    Rue du champ de foire 44650 Corcoué-sur-Logne\n",
+       "Name: geo_adresse, dtype: object"
+      ]
+     },
+     "execution_count": 58,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df_dpe_44[\"geo_adresse\"].head(10)\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Filtrer df_valeurs pour le département 44 et df_dpe_44 pour 2020\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 59,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(82779, 43)"
+      ]
+     },
+     "execution_count": 59,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Vérifier la forme de Code departement : \n",
+    "# (on suppose que c’est une chaîne, donc \"44\")\n",
+    "df_valeurs_44 = df_valeurs[df_valeurs[\"Code departement\"] == \"44\"]\n",
+    "\n",
+    "df_valeurs_44.shape\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 60,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "45     2013-04-10\n",
+       "146    2013-04-09\n",
+       "287    2013-04-11\n",
+       "329    2013-04-12\n",
+       "462    2013-04-14\n",
+       "570    2013-04-16\n",
+       "632    2013-04-17\n",
+       "765    2013-04-17\n",
+       "850    2013-04-05\n",
+       "912    2013-04-22\n",
+       "Name: date_etablissement_dpe, dtype: object"
+      ]
+     },
+     "execution_count": 60,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df_dpe_44[\"date_etablissement_dpe\"].head(10)\n",
+    "\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 61,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "/tmp/ipykernel_42220/819217646.py:1: SettingWithCopyWarning: \n",
+      "A value is trying to be set on a copy of a slice from a DataFrame.\n",
+      "Try using .loc[row_indexer,col_indexer] = value instead\n",
+      "\n",
+      "See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy\n",
+      "  df_dpe_44[\"date_etablissement_dpe\"] = pd.to_datetime(df_dpe_44[\"date_etablissement_dpe\"], errors=\"coerce\", dayfirst=True)\n"
+     ]
+    }
+   ],
+   "source": [
+    "df_dpe_44[\"date_etablissement_dpe\"] = pd.to_datetime(df_dpe_44[\"date_etablissement_dpe\"], errors=\"coerce\", dayfirst=True)\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 62,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "45    2013-10-04\n",
+       "146   2013-09-04\n",
+       "287   2013-11-04\n",
+       "329   2013-12-04\n",
+       "462          NaT\n",
+       "570          NaT\n",
+       "632          NaT\n",
+       "765          NaT\n",
+       "850   2013-05-04\n",
+       "912          NaT\n",
+       "Name: date_etablissement_dpe, dtype: datetime64[ns]"
+      ]
+     },
+     "execution_count": 62,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df_dpe_44[\"date_etablissement_dpe\"].head(10)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 63,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "/tmp/ipykernel_42220/2785394278.py:1: SettingWithCopyWarning: \n",
+      "A value is trying to be set on a copy of a slice from a DataFrame.\n",
+      "Try using .loc[row_indexer,col_indexer] = value instead\n",
+      "\n",
+      "See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy\n",
+      "  df_dpe_44[\"year\"] = df_dpe_44[\"date_etablissement_dpe\"].dt.year\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "year\n",
+       "2011.0        2\n",
+       "2012.0        1\n",
+       "2013.0     5720\n",
+       "2014.0    11592\n",
+       "2015.0    11429\n",
+       "2016.0    11848\n",
+       "2017.0    12044\n",
+       "2018.0    14553\n",
+       "2019.0    18359\n",
+       "2020.0    15837\n",
+       "2021.0    10798\n",
+       "2022.0        1\n",
+       "dtype: int64"
+      ]
+     },
+     "execution_count": 63,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df_dpe_44[\"year\"] = df_dpe_44[\"date_etablissement_dpe\"].dt.year\n",
+    "df_dpe_44.groupby(\"year\").size()\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 64,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(15837, 19)"
+      ]
+     },
+     "execution_count": 64,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df_dpe_44_2020 = df_dpe_44[df_dpe_44[\"date_etablissement_dpe\"].dt.year == 2020]\n",
+    "df_dpe_44_2020.shape\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 65,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>No voie</th>\n",
+       "      <th>B/T/Q</th>\n",
+       "      <th>Type de voie</th>\n",
+       "      <th>Voie</th>\n",
+       "      <th>Code postal</th>\n",
+       "      <th>Commune</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>1566104</th>\n",
+       "      <td>2.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>RUE</td>\n",
+       "      <td>LEMOT</td>\n",
+       "      <td>44100.0</td>\n",
+       "      <td>NANTES</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1566105</th>\n",
+       "      <td>2.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>RUE</td>\n",
+       "      <td>LEMOT</td>\n",
+       "      <td>44100.0</td>\n",
+       "      <td>NANTES</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1566106</th>\n",
+       "      <td>4.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>RUE</td>\n",
+       "      <td>RICHER</td>\n",
+       "      <td>44100.0</td>\n",
+       "      <td>NANTES</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1566107</th>\n",
+       "      <td>4.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>RUE</td>\n",
+       "      <td>RICHER</td>\n",
+       "      <td>44100.0</td>\n",
+       "      <td>NANTES</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1566108</th>\n",
+       "      <td>2.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>ALL</td>\n",
+       "      <td>DE L'ORANGERIE</td>\n",
+       "      <td>44800.0</td>\n",
+       "      <td>ST-HERBLAIN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1566109</th>\n",
+       "      <td>2.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>ALL</td>\n",
+       "      <td>DE L'ORANGERIE</td>\n",
+       "      <td>44800.0</td>\n",
+       "      <td>ST-HERBLAIN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1566110</th>\n",
+       "      <td>2.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>ALL</td>\n",
+       "      <td>DE L'ORANGERIE</td>\n",
+       "      <td>44800.0</td>\n",
+       "      <td>ST-HERBLAIN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1566111</th>\n",
+       "      <td>92.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>RUE</td>\n",
+       "      <td>D ALLONVILLE</td>\n",
+       "      <td>44000.0</td>\n",
+       "      <td>NANTES</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1566112</th>\n",
+       "      <td>35.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>AV</td>\n",
+       "      <td>DES EPAGNEULS</td>\n",
+       "      <td>44300.0</td>\n",
+       "      <td>NANTES</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1566113</th>\n",
+       "      <td>19.0</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>RUE</td>\n",
+       "      <td>GALILEE</td>\n",
+       "      <td>44100.0</td>\n",
+       "      <td>NANTES</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "         No voie B/T/Q Type de voie            Voie  Code postal      Commune\n",
+       "1566104      2.0   NaN          RUE           LEMOT      44100.0       NANTES\n",
+       "1566105      2.0   NaN          RUE           LEMOT      44100.0       NANTES\n",
+       "1566106      4.0   NaN          RUE          RICHER      44100.0       NANTES\n",
+       "1566107      4.0   NaN          RUE          RICHER      44100.0       NANTES\n",
+       "1566108      2.0   NaN          ALL  DE L'ORANGERIE      44800.0  ST-HERBLAIN\n",
+       "1566109      2.0   NaN          ALL  DE L'ORANGERIE      44800.0  ST-HERBLAIN\n",
+       "1566110      2.0   NaN          ALL  DE L'ORANGERIE      44800.0  ST-HERBLAIN\n",
+       "1566111     92.0   NaN          RUE    D ALLONVILLE      44000.0       NANTES\n",
+       "1566112     35.0   NaN           AV   DES EPAGNEULS      44300.0       NANTES\n",
+       "1566113     19.0   NaN          RUE         GALILEE      44100.0       NANTES"
+      ]
+     },
+     "execution_count": 65,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df_valeurs_44[[\"No voie\", \"B/T/Q\", \"Type de voie\", \"Voie\", \"Code postal\", \"Commune\"]].head(10)\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Installation et import de libpostal (pypostal)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 41,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Collecting postal\n",
+      "  Downloading postal-1.1.10.tar.gz (21 kB)\n",
+      "  Preparing metadata (setup.py) ... \u001b[?25ldone\n",
+      "\u001b[?25hRequirement already satisfied: six in /opt/conda/lib/python3.12/site-packages (from postal) (1.17.0)\n",
+      "Building wheels for collected packages: postal\n",
+      "  Building wheel for postal (setup.py) ... \u001b[?25ldone\n",
+      "\u001b[?25h  Created wheel for postal: filename=postal-1.1.10-cp312-cp312-linux_x86_64.whl size=55944 sha256=36df5ecbfaf920c366520955f32ec7287249cda91ffafc1e79feb19d1ed34184\n",
+      "  Stored in directory: /home/onyxia/.cache/pip/wheels/75/17/48/f13e759c377b45483298cd04b48af11eab3b97934267666aa0\n",
+      "Successfully built postal\n",
+      "Installing collected packages: postal\n",
+      "Successfully installed postal-1.1.10\n"
+     ]
+    }
+   ],
+   "source": [
+    "!pip install postal\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 66,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from postal.parser import parse_address\n",
+    "from postal.expand import expand_address\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 67,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "\"16 Rue de l'Atlantique 44650 Legé\""
+      ]
+     },
+     "execution_count": 67,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "sample_address = df_dpe_44_2020[\"geo_adresse\"].iloc[0]\n",
+    "sample_address\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 68,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "[('16', 'house_number'),\n",
+       " (\"rue de l'atlantique\", 'road'),\n",
+       " ('44650', 'postcode'),\n",
+       " ('legé', 'city')]"
+      ]
+     },
+     "execution_count": 68,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "parsed = parse_address(sample_address)\n",
+    "parsed\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 71,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from postal.parser import parse_address\n",
+    "\n",
+    "def parse_libpostal_address(addr):\n",
+    "    if pd.isna(addr) or not isinstance(addr, str) or addr.strip() == \"\":\n",
+    "        return {}\n",
+    "    parsed = parse_address(addr)\n",
+    "    # parsed est une liste de tuples (text, label)\n",
+    "    # On veut construire un dict {label: text}\n",
+    "    inverted = {}\n",
+    "    for text, label in parsed:\n",
+    "        inverted[label] = text\n",
+    "    return inverted\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 72,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>numero_dpe</th>\n",
+       "      <th>nom_methode_dpe</th>\n",
+       "      <th>version_methode_dpe</th>\n",
+       "      <th>date_etablissement_dpe</th>\n",
+       "      <th>consommation_energie</th>\n",
+       "      <th>classe_consommation_energie</th>\n",
+       "      <th>estimation_ges</th>\n",
+       "      <th>classe_estimation_ges</th>\n",
+       "      <th>annee_construction</th>\n",
+       "      <th>surface_thermique_lot</th>\n",
+       "      <th>...</th>\n",
+       "      <th>state_district</th>\n",
+       "      <th>parsed</th>\n",
+       "      <th>house_number</th>\n",
+       "      <th>road</th>\n",
+       "      <th>postcode</th>\n",
+       "      <th>city</th>\n",
+       "      <th>country</th>\n",
+       "      <th>house</th>\n",
+       "      <th>suburb</th>\n",
+       "      <th>state_district</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>9870735</th>\n",
+       "      <td>2044L2000001W</td>\n",
+       "      <td>Méthode Facture</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>2020-02-01</td>\n",
+       "      <td>366.00</td>\n",
+       "      <td>F</td>\n",
+       "      <td>11.0</td>\n",
+       "      <td>C</td>\n",
+       "      <td>1947.0</td>\n",
+       "      <td>67.31</td>\n",
+       "      <td>...</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>{'house_number': '16', 'road': 'rue de l'atlan...</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>9870778</th>\n",
+       "      <td>2044V1000001W</td>\n",
+       "      <td>Méthode 3CL</td>\n",
+       "      <td>3CL-DPE, version 1.3</td>\n",
+       "      <td>2020-02-01</td>\n",
+       "      <td>128.00</td>\n",
+       "      <td>C</td>\n",
+       "      <td>30.0</td>\n",
+       "      <td>D</td>\n",
+       "      <td>1989.0</td>\n",
+       "      <td>72.00</td>\n",
+       "      <td>...</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>{'house_number': '11', 'road': 'rue de la haut...</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>9870785</th>\n",
+       "      <td>2044V1000002X</td>\n",
+       "      <td>Méthode 3CL</td>\n",
+       "      <td>3CL-DPE, version 1.3</td>\n",
+       "      <td>2020-02-01</td>\n",
+       "      <td>144.00</td>\n",
+       "      <td>C</td>\n",
+       "      <td>33.0</td>\n",
+       "      <td>D</td>\n",
+       "      <td>1978.0</td>\n",
+       "      <td>101.00</td>\n",
+       "      <td>...</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>{'house_number': '54', 'road': 'rue jean marie...</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>9870800</th>\n",
+       "      <td>2044V1000003Y</td>\n",
+       "      <td>3CL - DPE</td>\n",
+       "      <td>V2012</td>\n",
+       "      <td>2020-02-01</td>\n",
+       "      <td>326.03</td>\n",
+       "      <td>E</td>\n",
+       "      <td>14.9</td>\n",
+       "      <td>C</td>\n",
+       "      <td>1987.0</td>\n",
+       "      <td>19.98</td>\n",
+       "      <td>...</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>{'house_number': '13', 'road': 'rue du coudray...</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>9870807</th>\n",
+       "      <td>2044V1000004@</td>\n",
+       "      <td>Méthode 3CL</td>\n",
+       "      <td>3CL-DPE, version 1.3</td>\n",
+       "      <td>2020-02-01</td>\n",
+       "      <td>299.00</td>\n",
+       "      <td>E</td>\n",
+       "      <td>16.0</td>\n",
+       "      <td>C</td>\n",
+       "      <td>1959.0</td>\n",
+       "      <td>70.00</td>\n",
+       "      <td>...</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>{'house_number': '8', 'road': 'rue de la treil...</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "<p>5 rows × 36 columns</p>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "            numero_dpe  nom_methode_dpe   version_methode_dpe  \\\n",
+       "9870735  2044L2000001W  Méthode Facture                   NaN   \n",
+       "9870778  2044V1000001W      Méthode 3CL  3CL-DPE, version 1.3   \n",
+       "9870785  2044V1000002X      Méthode 3CL  3CL-DPE, version 1.3   \n",
+       "9870800  2044V1000003Y        3CL - DPE                 V2012   \n",
+       "9870807  2044V1000004@      Méthode 3CL  3CL-DPE, version 1.3   \n",
+       "\n",
+       "        date_etablissement_dpe  consommation_energie  \\\n",
+       "9870735             2020-02-01                366.00   \n",
+       "9870778             2020-02-01                128.00   \n",
+       "9870785             2020-02-01                144.00   \n",
+       "9870800             2020-02-01                326.03   \n",
+       "9870807             2020-02-01                299.00   \n",
+       "\n",
+       "        classe_consommation_energie  estimation_ges classe_estimation_ges  \\\n",
+       "9870735                           F            11.0                     C   \n",
+       "9870778                           C            30.0                     D   \n",
+       "9870785                           C            33.0                     D   \n",
+       "9870800                           E            14.9                     C   \n",
+       "9870807                           E            16.0                     C   \n",
+       "\n",
+       "         annee_construction  surface_thermique_lot  ... state_district  \\\n",
+       "9870735              1947.0                  67.31  ...            NaN   \n",
+       "9870778              1989.0                  72.00  ...            NaN   \n",
+       "9870785              1978.0                 101.00  ...            NaN   \n",
+       "9870800              1987.0                  19.98  ...            NaN   \n",
+       "9870807              1959.0                  70.00  ...            NaN   \n",
+       "\n",
+       "                                                    parsed house_number road  \\\n",
+       "9870735  {'house_number': '16', 'road': 'rue de l'atlan...          NaN  NaN   \n",
+       "9870778  {'house_number': '11', 'road': 'rue de la haut...          NaN  NaN   \n",
+       "9870785  {'house_number': '54', 'road': 'rue jean marie...          NaN  NaN   \n",
+       "9870800  {'house_number': '13', 'road': 'rue du coudray...          NaN  NaN   \n",
+       "9870807  {'house_number': '8', 'road': 'rue de la treil...          NaN  NaN   \n",
+       "\n",
+       "        postcode city country  house  suburb state_district  \n",
+       "9870735      NaN  NaN     NaN    NaN     NaN            NaN  \n",
+       "9870778      NaN  NaN     NaN    NaN     NaN            NaN  \n",
+       "9870785      NaN  NaN     NaN    NaN     NaN            NaN  \n",
+       "9870800      NaN  NaN     NaN    NaN     NaN            NaN  \n",
+       "9870807      NaN  NaN     NaN    NaN     NaN            NaN  \n",
+       "\n",
+       "[5 rows x 36 columns]"
+      ]
+     },
+     "execution_count": 72,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df_dpe_44_2020.drop(columns=[\"parsed\"], inplace=True, errors=\"ignore\")  # Pour enlever l'ancienne\n",
+    "df_dpe_44_2020[\"parsed\"] = df_dpe_44_2020[\"geo_adresse\"].apply(parse_libpostal_address)\n",
+    "\n",
+    "parsed_df = pd.json_normalize(df_dpe_44_2020[\"parsed\"])\n",
+    "df_dpe_44_2020 = pd.concat([df_dpe_44_2020, parsed_df], axis=1)\n",
+    "df_dpe_44_2020.head()\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "test pour push"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 47,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>16</th>\n",
+       "      <th>rue de l'atlantique</th>\n",
+       "      <th>44650</th>\n",
+       "      <th>legé</th>\n",
+       "      <th>11</th>\n",
+       "      <th>rue de la haute mitrie</th>\n",
+       "      <th>44300</th>\n",
+       "      <th>nantes</th>\n",
+       "      <th>54</th>\n",
+       "      <th>rue jean marie desbrosses</th>\n",
+       "      <th>...</th>\n",
+       "      <th>impasse des noisetiers</th>\n",
+       "      <th>rue des champs thébaud</th>\n",
+       "      <th>rue des goldens</th>\n",
+       "      <th>place cambronne</th>\n",
+       "      <th>rue de la maladrie</th>\n",
+       "      <th>8ter</th>\n",
+       "      <th>rue santos dumont</th>\n",
+       "      <th>rue saint honoré</th>\n",
+       "      <th>place lebert</th>\n",
+       "      <th>rue rollin</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>house_number</td>\n",
+       "      <td>road</td>\n",
+       "      <td>postcode</td>\n",
+       "      <td>city</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>...</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>house_number</td>\n",
+       "      <td>road</td>\n",
+       "      <td>postcode</td>\n",
+       "      <td>city</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>...</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>house_number</td>\n",
+       "      <td>road</td>\n",
+       "      <td>...</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>city</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>...</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>...</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "<p>5 rows × 5908 columns</p>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "             16 rue de l'atlantique     44650  legé            11  \\\n",
+       "0  house_number                road  postcode  city           NaN   \n",
+       "1           NaN                 NaN       NaN   NaN  house_number   \n",
+       "2           NaN                 NaN       NaN   NaN           NaN   \n",
+       "3           NaN                 NaN       NaN   NaN           NaN   \n",
+       "4           NaN                 NaN       NaN   NaN           NaN   \n",
+       "\n",
+       "  rue de la haute mitrie     44300 nantes            54  \\\n",
+       "0                    NaN       NaN    NaN           NaN   \n",
+       "1                   road  postcode   city           NaN   \n",
+       "2                    NaN       NaN    NaN  house_number   \n",
+       "3                    NaN       NaN   city           NaN   \n",
+       "4                    NaN       NaN    NaN           NaN   \n",
+       "\n",
+       "  rue jean marie desbrosses  ... impasse des noisetiers  \\\n",
+       "0                       NaN  ...                    NaN   \n",
+       "1                       NaN  ...                    NaN   \n",
+       "2                      road  ...                    NaN   \n",
+       "3                       NaN  ...                    NaN   \n",
+       "4                       NaN  ...                    NaN   \n",
+       "\n",
+       "  rue des champs thébaud rue des goldens place cambronne rue de la maladrie  \\\n",
+       "0                    NaN             NaN             NaN                NaN   \n",
+       "1                    NaN             NaN             NaN                NaN   \n",
+       "2                    NaN             NaN             NaN                NaN   \n",
+       "3                    NaN             NaN             NaN                NaN   \n",
+       "4                    NaN             NaN             NaN                NaN   \n",
+       "\n",
+       "  8ter rue santos dumont rue saint honoré place lebert rue rollin  \n",
+       "0  NaN               NaN              NaN          NaN        NaN  \n",
+       "1  NaN               NaN              NaN          NaN        NaN  \n",
+       "2  NaN               NaN              NaN          NaN        NaN  \n",
+       "3  NaN               NaN              NaN          NaN        NaN  \n",
+       "4  NaN               NaN              NaN          NaN        NaN  \n",
+       "\n",
+       "[5 rows x 5908 columns]"
+      ]
+     },
+     "execution_count": 47,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "parsed_df = pd.json_normalize(df_dpe_44_2020[\"parsed\"])\n",
+    "parsed_df.head()\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "parsed_df = pd.json_normalize(df_dpe_44_2020[\"parsed\"])\n",
+    "parsed_df.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 48,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>numero_dpe</th>\n",
+       "      <th>nom_methode_dpe</th>\n",
+       "      <th>version_methode_dpe</th>\n",
+       "      <th>date_etablissement_dpe</th>\n",
+       "      <th>consommation_energie</th>\n",
+       "      <th>classe_consommation_energie</th>\n",
+       "      <th>estimation_ges</th>\n",
+       "      <th>classe_estimation_ges</th>\n",
+       "      <th>annee_construction</th>\n",
+       "      <th>surface_thermique_lot</th>\n",
+       "      <th>...</th>\n",
+       "      <th>impasse des noisetiers</th>\n",
+       "      <th>rue des champs thébaud</th>\n",
+       "      <th>rue des goldens</th>\n",
+       "      <th>place cambronne</th>\n",
+       "      <th>rue de la maladrie</th>\n",
+       "      <th>8ter</th>\n",
+       "      <th>rue santos dumont</th>\n",
+       "      <th>rue saint honoré</th>\n",
+       "      <th>place lebert</th>\n",
+       "      <th>rue rollin</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>9870735</th>\n",
+       "      <td>2044L2000001W</td>\n",
+       "      <td>Méthode Facture</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>2020-02-01</td>\n",
+       "      <td>366.00</td>\n",
+       "      <td>F</td>\n",
+       "      <td>11.0</td>\n",
+       "      <td>C</td>\n",
+       "      <td>1947.0</td>\n",
+       "      <td>67.31</td>\n",
+       "      <td>...</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>9870778</th>\n",
+       "      <td>2044V1000001W</td>\n",
+       "      <td>Méthode 3CL</td>\n",
+       "      <td>3CL-DPE, version 1.3</td>\n",
+       "      <td>2020-02-01</td>\n",
+       "      <td>128.00</td>\n",
+       "      <td>C</td>\n",
+       "      <td>30.0</td>\n",
+       "      <td>D</td>\n",
+       "      <td>1989.0</td>\n",
+       "      <td>72.00</td>\n",
+       "      <td>...</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>9870785</th>\n",
+       "      <td>2044V1000002X</td>\n",
+       "      <td>Méthode 3CL</td>\n",
+       "      <td>3CL-DPE, version 1.3</td>\n",
+       "      <td>2020-02-01</td>\n",
+       "      <td>144.00</td>\n",
+       "      <td>C</td>\n",
+       "      <td>33.0</td>\n",
+       "      <td>D</td>\n",
+       "      <td>1978.0</td>\n",
+       "      <td>101.00</td>\n",
+       "      <td>...</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>9870800</th>\n",
+       "      <td>2044V1000003Y</td>\n",
+       "      <td>3CL - DPE</td>\n",
+       "      <td>V2012</td>\n",
+       "      <td>2020-02-01</td>\n",
+       "      <td>326.03</td>\n",
+       "      <td>E</td>\n",
+       "      <td>14.9</td>\n",
+       "      <td>C</td>\n",
+       "      <td>1987.0</td>\n",
+       "      <td>19.98</td>\n",
+       "      <td>...</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>9870807</th>\n",
+       "      <td>2044V1000004@</td>\n",
+       "      <td>Méthode 3CL</td>\n",
+       "      <td>3CL-DPE, version 1.3</td>\n",
+       "      <td>2020-02-01</td>\n",
+       "      <td>299.00</td>\n",
+       "      <td>E</td>\n",
+       "      <td>16.0</td>\n",
+       "      <td>C</td>\n",
+       "      <td>1959.0</td>\n",
+       "      <td>70.00</td>\n",
+       "      <td>...</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>NaN</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "<p>5 rows × 5928 columns</p>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "            numero_dpe  nom_methode_dpe   version_methode_dpe  \\\n",
+       "9870735  2044L2000001W  Méthode Facture                   NaN   \n",
+       "9870778  2044V1000001W      Méthode 3CL  3CL-DPE, version 1.3   \n",
+       "9870785  2044V1000002X      Méthode 3CL  3CL-DPE, version 1.3   \n",
+       "9870800  2044V1000003Y        3CL - DPE                 V2012   \n",
+       "9870807  2044V1000004@      Méthode 3CL  3CL-DPE, version 1.3   \n",
+       "\n",
+       "        date_etablissement_dpe  consommation_energie  \\\n",
+       "9870735             2020-02-01                366.00   \n",
+       "9870778             2020-02-01                128.00   \n",
+       "9870785             2020-02-01                144.00   \n",
+       "9870800             2020-02-01                326.03   \n",
+       "9870807             2020-02-01                299.00   \n",
+       "\n",
+       "        classe_consommation_energie  estimation_ges classe_estimation_ges  \\\n",
+       "9870735                           F            11.0                     C   \n",
+       "9870778                           C            30.0                     D   \n",
+       "9870785                           C            33.0                     D   \n",
+       "9870800                           E            14.9                     C   \n",
+       "9870807                           E            16.0                     C   \n",
+       "\n",
+       "         annee_construction  surface_thermique_lot  ...  \\\n",
+       "9870735              1947.0                  67.31  ...   \n",
+       "9870778              1989.0                  72.00  ...   \n",
+       "9870785              1978.0                 101.00  ...   \n",
+       "9870800              1987.0                  19.98  ...   \n",
+       "9870807              1959.0                  70.00  ...   \n",
+       "\n",
+       "         impasse des noisetiers  rue des champs thébaud rue des goldens  \\\n",
+       "9870735                     NaN                     NaN             NaN   \n",
+       "9870778                     NaN                     NaN             NaN   \n",
+       "9870785                     NaN                     NaN             NaN   \n",
+       "9870800                     NaN                     NaN             NaN   \n",
+       "9870807                     NaN                     NaN             NaN   \n",
+       "\n",
+       "        place cambronne rue de la maladrie 8ter rue santos dumont  \\\n",
+       "9870735             NaN                NaN  NaN               NaN   \n",
+       "9870778             NaN                NaN  NaN               NaN   \n",
+       "9870785             NaN                NaN  NaN               NaN   \n",
+       "9870800             NaN                NaN  NaN               NaN   \n",
+       "9870807             NaN                NaN  NaN               NaN   \n",
+       "\n",
+       "         rue saint honoré  place lebert rue rollin  \n",
+       "9870735               NaN           NaN        NaN  \n",
+       "9870778               NaN           NaN        NaN  \n",
+       "9870785               NaN           NaN        NaN  \n",
+       "9870800               NaN           NaN        NaN  \n",
+       "9870807               NaN           NaN        NaN  \n",
+       "\n",
+       "[5 rows x 5928 columns]"
+      ]
+     },
+     "execution_count": 48,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df_dpe_44_2020 = pd.concat([df_dpe_44_2020, parsed_df], axis=1)\n",
+    "df_dpe_44_2020.head()\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 49,
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "NameError",
+     "evalue": "name 'addr' is not defined",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mNameError\u001b[0m                                 Traceback (most recent call last)",
+      "Cell \u001b[0;32mIn[49], line 1\u001b[0m\n\u001b[0;32m----> 1\u001b[0m components \u001b[38;5;241m=\u001b[39m parse_address(\u001b[43maddr\u001b[49m)\n\u001b[1;32m      2\u001b[0m \u001b[38;5;28;01mreturn\u001b[39;00m \u001b[38;5;28mdict\u001b[39m(components)\n",
+      "\u001b[0;31mNameError\u001b[0m: name 'addr' is not defined"
+     ]
+    }
+   ],
+   "source": [
+    "components = parse_address(addr)\n",
+    "return dict(components)\n"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "base",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.12.7"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
