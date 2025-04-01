@@ -28,7 +28,7 @@ class S3Connection:
     def read_file_from_s3(self, directory, columns_to_select=None, dtype_spec=None, sep=None):
         try:
             with self.s3.open(f"{self.bucket}/{directory}", "rb") as file_in:
-                df = pd.read_csv(file_in, usecols=columns_to_select, dtype=dtype_spec, sep=sep)
+                df = pd.read_csv(file_in, usecols=columns_to_select, dtype=dtype_spec, sep=sep, low_memory=False)
             return df
         except Exception as e:
             print(f"Error reading file from S3: {e}")
